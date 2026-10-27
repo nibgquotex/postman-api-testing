@@ -1,0 +1,531 @@
+{
+  "info": {
+    "_postman_id": "5a25210c-ed53-4d91-b0f8-5a201382cdb4",
+    "name": "My Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58975181",
+    "_collection_link": "https://go.postman.co/collection/58975181-5a25210c-ed53-4d91-b0f8-5a201382cdb4?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "PMS API Testing",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "\r\nvar jsonData = pm.response.json();\r\nif (jsonData.token) {\r\n    pm.environment.set(\"auth_token\", jsonData.token);\r\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"email\": \"nibgquotex@gmail.com\",\r\n  \"password\": \"Nibg1234$\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/login",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Profile",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/user",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Projetcs",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/projects",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200 or 201\", function () {\r\n    pm.expect(pm.response.code).to.be.oneOf([200, 201]);\r\n});\r\n\r\nvar jsonData = pm.response.json();\r\nif (jsonData.project && jsonData.project.id) {\r\n    pm.environment.set(\"project_id\", jsonData.project.id);\r\n}\r\n\r\n\r\n"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Postman Test Project\",\r\n  \"description\": \"Created via Postman API testing\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/projects",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "projects"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200 OK\", function () {\r\n    pm.response.to.have.status(200);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"Postman Test Project (Updated)\",\r\n  \"status\": \"Completed\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/projects/8",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "8"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Project",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200, 204 or 404\", function () {\r\n    pm.expect(pm.response.code).to.be.oneOf([200, 204, 404]);\r\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/projects/6",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "projects",
+                "6"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://app.one.techxaro.com/api/logout",
+              "protocol": "https",
+              "host": [
+                "app",
+                "one",
+                "techxaro",
+                "com"
+              ],
+              "path": [
+                "api",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Stagingmarket.gonje",
+      "item": []
+    },
+    {
+      "name": "Test",
+      "item": [
+        {
+          "name": "User Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "var jsonData = pm.response.json();\r",
+                  "pm.environment.set(\"auth_token\", jsonData.accessToken);"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"username\": \"emilys\",\r\n  \"password\": \"emilyspass\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://dummyjson.com/auth/login",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "User Profile",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://dummyjson.com/auth/me",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add New Product",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n  \"title\": \"BMW Car\",\r\n  \"category\": \"vehicles\",\r\n  \"price\": 20000,\r\n  \"stock\": 10,\r\n  \"description\": \"Yeh ek test product hai API automation practice ke liye.\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "https://dummyjson.com/products/add",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "products",
+                "add"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://dummyjson.com/products/1",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "https://dummyjson.com/products/1",
+              "protocol": "https",
+              "host": [
+                "dummyjson",
+                "com"
+              ],
+              "path": [
+                "products",
+                "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "requests": {},
+            "exec": [
+              ""
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
